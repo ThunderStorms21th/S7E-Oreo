@@ -746,6 +746,9 @@ struct inode *__ext4_new_inode(handle_t *handle, struct inode *dir,
 		encrypt = 1;
 	}
 
+	if (unlikely(ext4_forced_shutdown(EXT4_SB(dir->i_sb))))
+		return ERR_PTR(-EIO);
+
 	sb = dir->i_sb;
 	ngroups = ext4_get_groups_count(sb);
 	trace_ext4_request_inode(dir, mode);
