@@ -126,13 +126,6 @@
 #ifdef CONFIG_ANDROID_PARANOID_NETWORK
 #include <linux/android_aid.h>
 
-/* START_OF_KNOX_NPA */
-#include <net/ncm.h>
-#include <linux/kfifo.h>
-#include <asm/current.h>
-#include <linux/pid.h>
-/* END_OF_KNOX_NPA */
-
 static inline int current_has_network(void)
 {
 	return in_egroup_p(AID_INET) || capable(CAP_NET_RAW);
@@ -467,11 +460,6 @@ int inet_release(struct socket *sock)
 		if (sock_flag(sk, SOCK_LINGER) &&
 		    !(current->flags & PF_EXITING))
 			timeout = sk->sk_lingertime;
-		/* START_OF_KNOX_NPA */
-#ifdef CONFIG_KNOX_NCM
-		knox_collect_metadata(sock);
-#endif
-		/* END_OF_KNOX_NPA */
 		sock->sk = NULL;
 		sk->sk_prot->close(sk, timeout);
 	}
@@ -813,13 +801,6 @@ int inet_sendmsg(struct kiocb *iocb, struct socket *sock, struct msghdr *msg,
 
     err = sk->sk_prot->sendmsg(iocb, sk, msg, size);
 
-    if (err >= 0) {
-        if(sock->knox_sent + err > ULLONG_MAX) {
-            sock->knox_sent = ULLONG_MAX;
-        } else {
-            sock->knox_sent = sock->knox_sent + err;
-        }
-    }
     return err;
 }
 EXPORT_SYMBOL(inet_sendmsg);
@@ -853,14 +834,8 @@ int inet_recvmsg(struct kiocb *iocb, struct socket *sock, struct msghdr *msg,
 
 	err = sk->sk_prot->recvmsg(iocb, sk, msg, size, flags & MSG_DONTWAIT,
 				   flags & ~MSG_DONTWAIT, &addr_len);
-	if (err >= 0) {
+	if (err >= 0)
 		msg->msg_namelen = addr_len;
-        if(sock->knox_recv + err > ULLONG_MAX) {
-            sock->knox_recv = ULLONG_MAX;
-        } else {
-            sock->knox_recv = sock->knox_recv + err;
-        }
-    }
 	return err;
 }
 EXPORT_SYMBOL(inet_recvmsg);
@@ -1983,4 +1958,3 @@ static int __init ipv4_proc_init(void)
 #endif /* CONFIG_PROC_FS */
 
 MODULE_ALIAS_NETPROTO(PF_INET);
-
