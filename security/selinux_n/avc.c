@@ -244,7 +244,7 @@ static struct extended_perms_decision *avc_xperms_decision_lookup(u8 driver,
 					struct avc_xperms_node *xp_node)
 {
 	struct avc_xperms_decision_node *xpd_node;
-	
+
 	list_for_each_entry(xpd_node, &xp_node->xpd_head, xpd_list) {
 		if (xpd_node->xpd.driver == driver)
 			return &xpd_node->xpd;
@@ -257,7 +257,7 @@ avc_xperms_has_perm(struct extended_perms_decision *xpd,
 					u8 perm, u8 which)
 {
 	unsigned int rc = 0;
-	
+
 	if ((which == XPERMS_ALLOWED) &&
 			(xpd->used & XPERMS_ALLOWED))
 		rc = security_xperm_test(xpd->allowed->p, perm);

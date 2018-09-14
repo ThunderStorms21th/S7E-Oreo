@@ -989,7 +989,7 @@ int /*__init*/ f_midi_bind_config(struct usb_configuration *c,
 		config->card = -1;
 		config->device = -1;
 	}
-	
+
 	/* sanity check */
 	if (in_ports > MAX_PORTS || out_ports > MAX_PORTS)
 		return -EINVAL;
@@ -1076,4 +1076,3 @@ static void f_midi_cleanup(void)
 		kfree(_midi->in_port[i]);
 	kfree(_midi);
 }
-

@@ -2651,7 +2651,7 @@ static ssize_t heavy_task_cpu_show(struct device *dev,
             remaining_load = cfs_load - task_util;
             avg_load = remaining_load / (no_task-1);
             if(avg_load > HEAVY_TASK_LOAD_THRESHOLD)
-                count++; 
+                count++;
         }
     }
 

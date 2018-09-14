@@ -5978,7 +5978,7 @@ static int hmp_is_family_in_fastest_domain(struct task_struct *p)
 
 				if ((s64)delta > 0) {
 					delta >>= 10;
-                           
+
 					if (delta > (1024 << 8)) {
 						continue;
 					}

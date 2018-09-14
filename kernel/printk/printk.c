@@ -483,7 +483,6 @@ void register_hook_logbuf(void (*func)(const char *buf, size_t size))
 EXPORT_SYMBOL(register_hook_logbuf);
 #endif
 
-
 /*
  * Define how much of the log buffer we could take at maximum. The value
  * must be greater than two. Note that only half of the buffer is available
@@ -2305,19 +2304,19 @@ void resume_console(void)
 	console_unlock();
 }
 
-/** 
- * console_flush - flush dmesg if console isn't suspended 
- * 
- * console_unlock always flushes the dmesg buffer, so just try to 
- * grab&drop the console lock. If that fails we know that the current 
- * holder will eventually drop the console lock and so flush the dmesg 
- * buffers at the earliest possible time. 
- */ 
-void console_flush(void) 
-{ 
-	if (console_trylock()) 
-		console_unlock(); 
-} 
+/**
+ * console_flush - flush dmesg if console isn't suspended
+ *
+ * console_unlock always flushes the dmesg buffer, so just try to
+ * grab&drop the console lock. If that fails we know that the current
+ * holder will eventually drop the console lock and so flush the dmesg
+ * buffers at the earliest possible time.
+ */
+void console_flush(void)
+{
+	if (console_trylock())
+		console_unlock();
+}
 
 /**
  * console_cpu_notify - print deferred console messages after CPU hotplug
@@ -2338,7 +2337,7 @@ static int console_cpu_notify(struct notifier_block *self,
 	case CPU_DEAD:
 	case CPU_DOWN_FAILED:
 	case CPU_UP_CANCELED:
-		console_flush(); 
+		console_flush();
 	}
 	return NOTIFY_OK;
 }

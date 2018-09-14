@@ -370,11 +370,11 @@ struct ufs_debug {
 */
 struct ufs_reset_info {
 	u8 rst_type;
-	u32 rst_total; 
-	u32 rst_cnt_probe; 
-	u32 rst_cnt_uic_err; 
-	u32 rst_cnt_host_reset; 
-	u32 rst_cnt_hibern8; 
+	u32 rst_total;
+	u32 rst_cnt_probe;
+	u32 rst_cnt_uic_err;
+	u32 rst_cnt_host_reset;
+	u32 rst_cnt_hibern8;
 };
 #define SEC_UFS_ERROR_COUNT
 
