@@ -35,6 +35,7 @@
 #include <linux/capability.h>
 #include <linux/compat.h>
 #include <linux/pm_runtime.h>
+#include <linux/iosched_switcher.h>
 
 #include <trace/events/mmc.h>
 
@@ -2739,6 +2740,8 @@ static struct mmc_blk_data *mmc_blk_alloc_req(struct mmc_card *card,
 			md->flags |= MMC_BLK_PACKED_CMD;
 	}
 
+	init_iosched_switcher(md->queue.queue);
+    
 	return md;
 
  err_putdisk:
