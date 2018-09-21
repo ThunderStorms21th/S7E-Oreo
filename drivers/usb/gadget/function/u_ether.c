@@ -784,14 +784,14 @@ static int alloc_tx_buffer(struct eth_dev *dev)
 		if (!req->buf)
 			req->buf = kmalloc(dev->tx_req_bufsize,
 						GFP_ATOMIC);
-			if (!req->buf)
-				goto free_buf;
+		if (!req->buf)
+			goto free_buf;
 #ifdef CONFIG_USB_NCM_ACCUMULATE_MULTPKT
-			if(dev->port_usb->is_fixed) {
-				memcpy(req->buf,dev->port_usb->header,dev->port_usb->header_len);
-				req->length = dev->port_usb->header_len;
-				DEBUG_NCM(KERN_ERR"usb: request(%p) req->len(%d) \n",req,req->length);
-			}
+		if(dev->port_usb->is_fixed) {
+			memcpy(req->buf,dev->port_usb->header,dev->port_usb->header_len);
+			req->length = dev->port_usb->header_len;
+			DEBUG_NCM(KERN_ERR"usb: request(%p) req->len(%d) \n",req,req->length);
+		}
 #endif
 	}
 	return 0;
@@ -1246,7 +1246,7 @@ struct eth_dev *gether_setup_name(struct usb_gadget *g, u8 ethaddr[ETH_ALEN],
 #ifdef CONFIG_USB_ANDROID_SAMSUNG_COMPOSITE
 	memcpy(dev->host_mac, ethaddr, ETH_ALEN);
 	printk(KERN_DEBUG "usb: set unique host mac\n");
-	
+
 #else
 	if (get_ether_addr(host_addr, dev->host_mac))
 		dev_warn(&g->dev,
