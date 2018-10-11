@@ -132,7 +132,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
 #ifdef CONFIG_TRANSPARENT_HUGEPAGE
 		"AnonHugePages:  %8lu kB\n"
 #endif
-		,
+	
 		K(i.totalram),
 		K(i.freeram),
 		K(available),
